@@ -77,4 +77,16 @@ export class PostController {
       res.status(400).json({ message: "Failed to delete post" });
     }
   }
+
+  async author(req: Request, res: Response) {
+    if (!req.params.id) {
+      throw new ApiError(400, "post id is required");
+    }
+    try {
+      const author = await this.postService.author(req.params.id);
+      res.status(200).json(author);
+    } catch (error) {
+      res.status(404).json({ message: "post not found" });
+    }
+  }
 }

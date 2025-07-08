@@ -65,4 +65,11 @@ export class postService {
     const published = await this.repository.publish(id);
     return published;
   }
+
+  async author(id: string) {
+    const post = await this.repository.readOne(id);
+    if (!post) throw new ApiError(404, "post not found.");
+    const author = await this.repository.getAuthor(post);
+    return author;
+  }
 }

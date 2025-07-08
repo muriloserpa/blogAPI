@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import type { Post } from "@prisma/client";
 import type IPostRepository from "../interfaces/iPostRepository";
+import type { User } from "../models/user";
 
 const prisma = new PrismaClient();
 export class PostRepository implements IPostRepository {
@@ -34,5 +35,12 @@ export class PostRepository implements IPostRepository {
       where: { id },
       data: { status: "PUBLISHED" },
     });
+  }
+
+  async getAuthor(post: Post): Promise<User | null> {
+    const author = await prisma.user.findUnique({
+      where: { id: post.authorId },
+    });
+    return author;
   }
 }
