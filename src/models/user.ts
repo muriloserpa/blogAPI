@@ -8,7 +8,12 @@ export type User = {
   role: UserRole;
 };
 
-export type UserWithoutPassword = Omit<User, "password">;
+export type UserWithoutPassword = {
+  id: string;
+  name: string;
+  email: string;
+  role?: UserRole;
+};
 
 export interface CreateUserData {
   name: string;

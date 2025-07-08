@@ -4,7 +4,7 @@ import type { User } from "@prisma/client";
 import type IUserRepository from "../interfaces/iUserRepository";
 
 const prisma = new PrismaClient();
-export class UserRepository implements IUserRepository<User> {
+export class UserRepository implements IUserRepository {
   async create(data: Omit<User, "id">) {
     const newUser = await prisma.user.create({
       data,

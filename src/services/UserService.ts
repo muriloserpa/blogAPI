@@ -9,9 +9,9 @@ import type {
 } from "../models/user";
 
 export class UserService {
-  protected readonly repository: IUserRepository<User>;
+  protected readonly repository: IUserRepository;
 
-  constructor(userRepository: IUserRepository<User>) {
+  constructor(userRepository: IUserRepository) {
     this.repository = userRepository;
   }
 
@@ -32,12 +32,13 @@ export class UserService {
       id: created.id,
       name: created.name,
       email: created.email,
-      role: created.role,
     };
   }
   async read(): Promise<UserWithoutPassword[]> {
     const users = await this.repository.read();
-    const usersWithoutPassword = users.map(({ password, ...rest }) => rest);
+    const usersWithoutPassword = users.map(
+      ({ password, role, ...rest }) => rest
+    );
     return usersWithoutPassword;
   }
   async readOne(id: string): Promise<UserWithoutPassword> {
@@ -62,12 +63,12 @@ export class UserService {
     }
 
     const updated = await this.repository.update(id, userData);
-    const { password, ...userWithoutPassword } = updated;
+    const { password, role, ...userWithoutPassword } = updated;
     return userWithoutPassword;
   }
   async delete(id: string) {
     const deleted = await this.repository.delete(id);
-    const { password, ...userWithoutPassword } = deleted;
+    const { password, role, ...userWithoutPassword } = deleted;
     return userWithoutPassword;
   }
 }
