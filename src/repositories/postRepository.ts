@@ -6,7 +6,9 @@ import type { User } from "../models/user";
 const prisma = new PrismaClient();
 export class PostRepository implements IPostRepository {
   async read() {
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.post.findMany({
+      where: { status: "PUBLISHED" },
+    });
     return posts;
   }
 

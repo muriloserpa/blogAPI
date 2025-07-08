@@ -14,16 +14,10 @@ export const postSchema = z.object({
     .max(1000, "Content must have at most 1000 characters"),
 
   authorId: z.string().uuid("Author ID must be a valid UUID."),
-
-  status: z
-    .enum(["DRAFT", "PUBLISHED"])
-    .refine((val) => ["draft", "published"].includes(val), {
-      message: "Status must be draft ou published",
-    }),
 });
 
 export const createPostSchema = postSchema.omit({ id: true }).extend({
-  status: postSchema.shape.status.optional().default("DRAFT"),
+  authorId: postSchema.shape.authorId.optional(),
 });
 
 export const updatePostSchema = createPostSchema.partial();

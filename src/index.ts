@@ -23,7 +23,7 @@ app.use(async (req, res, next) => {
   }
 });
 
-app.use("/users", authenticate, authorizeAdmin, userRouter);
+app.use("/users", authenticate, userRouter);
 app.use("/auth", authRouter);
 app.use("/posts", authenticate, postRouter);
 
