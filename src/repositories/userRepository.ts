@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import type IRepository from "../interfaces/iRepository";
 import type { User } from "@prisma/client";
 import type IUserRepository from "../interfaces/iUserRepository";
 

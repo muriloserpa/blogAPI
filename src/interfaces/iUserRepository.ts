@@ -1,5 +1,4 @@
-import type { User } from "@prisma/client";
-import type { CreateUserData } from "../models/user";
+import type { User } from "../models/user";
 import type IRepository from "./iRepository";
 
 export default interface IUserRepository extends IRepository<User> {

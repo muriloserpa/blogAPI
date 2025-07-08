@@ -1,10 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
-import type { Request, Response } from "express";
 import prisma from "./lib/prisma";
 import errorHandler from "./middlewares/error-handler";
-import { UserRepository } from "./repositories/userRepository";
 import userRouter from "./routes/UserRoutes";
+import postRouter from "./routes/PostRoutes";
 
 dotenv.config();
 const app = express();
@@ -23,6 +22,7 @@ app.use(async (req, res, next) => {
 });
 
 app.use("/users", userRouter);
+app.use("/posts", postRouter);
 
 app.use(errorHandler);
 
