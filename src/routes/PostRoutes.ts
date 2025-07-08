@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { PostController } from "../controllers/PostController";
+import { PostPermission } from "../middlewares/PostPermission";
 
 const postRouter = Router();
 const controller = new PostController();
@@ -10,13 +11,13 @@ postRouter.get("/", async (req, res) => {
 postRouter.post("/", async (req, res) => {
   await controller.create(req, res);
 });
-postRouter.get("/:id", async (req, res) => {
+postRouter.get("/:id", PostPermission, async (req, res) => {
   await controller.getById(req, res);
 });
-postRouter.put("/:id", async (req, res) => {
+postRouter.put("/:id", PostPermission, async (req, res) => {
   await controller.update(req, res);
 });
-postRouter.delete("/:id", async (req, res) => {
+postRouter.delete("/:id", PostPermission, async (req, res) => {
   await controller.delete(req, res);
 });
 

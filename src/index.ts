@@ -25,7 +25,7 @@ app.use(async (req, res, next) => {
 
 app.use("/users", authenticate, authorizeAdmin, userRouter);
 app.use("/auth", authRouter);
-app.use("/posts", postRouter);
+app.use("/posts", authenticate, postRouter);
 
 app.use(errorHandler);
 

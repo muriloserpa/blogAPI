@@ -9,6 +9,11 @@ const errorHandler = (
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
 
+  if (err instanceof SyntaxError && "body" in err) {
+    res.status(400).json({ error: "Request body must be a valid JSON." });
+    return;
+  }
+
   res.status(statusCode).json({
     status: "error",
     statusCode,

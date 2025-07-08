@@ -69,6 +69,7 @@ export class PostController {
     if (!req.params.id) {
       throw new ApiError(400, "post id is required");
     }
+
     try {
       await this.postService.delete(req.params.id);
       res.status(204).send();
