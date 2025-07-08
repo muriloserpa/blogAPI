@@ -2,8 +2,9 @@ import { hash } from "bcryptjs";
 import ApiError from "../errors/api-error";
 import type IUserRepository from "../interfaces/iUserRepository";
 import type {
-  CreateUserData,
+  createUserData as CreateUserData,
   Credentials,
+  updateUserData,
   User,
   UserRole,
   UserWithoutPassword,
@@ -50,7 +51,7 @@ export class UserService {
     const { password, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
-  async update(id: string, userData: Partial<User>) {
+  async update(id: string, userData: updateUserData) {
     const user = await this.repository.readOne(id);
     if (!user) throw new ApiError(404, "User not found.");
 
