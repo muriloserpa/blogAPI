@@ -40,10 +40,10 @@ export class postService {
     );
     return postsWithoutStatus;
   }
-  async readOne(id: string): Promise<Omit<Post, "status">> {
+  async readOne(id: string): Promise<Post> {
     const post = await this.repository.readOne(id);
     if (!post) throw new ApiError(404, "post not found.");
-    const { status, ...postWithoutStatus } = post;
+    const { ...postWithoutStatus } = post;
     return postWithoutStatus;
   }
 
