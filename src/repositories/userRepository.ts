@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import type { User } from "@prisma/client";
 import type IUserRepository from "../interfaces/iUserRepository";
+import type { Post } from "../models/post";
+import ApiError from "../errors/api-error";
 
 const prisma = new PrismaClient();
 export class UserRepository implements IUserRepository {
@@ -29,5 +31,9 @@ export class UserRepository implements IUserRepository {
 
   async findByEmail(email: string) {
     return prisma.user.findUnique({ where: { email } });
+  }
+
+  async userPosts(userId: string): Promise<Post[]> {
+    return prisma.post.findMany({ where: { authorId: userId } });
   }
 }

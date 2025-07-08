@@ -9,6 +9,7 @@ import type {
   UserWithoutPassword,
 } from "../models/user";
 import { comparePassword, generateToken } from "../utils/jwt";
+import type { Post } from "../models/post";
 
 export class UserService {
   protected readonly repository: IUserRepository;
@@ -79,5 +80,11 @@ export class UserService {
     if (!user || !comparePassword(credentials.password, user.password))
       throw new ApiError(401, "Invalid credentials.");
     return generateToken(user);
+  }
+
+  async userPosts(userId: string): Promise<Post[]> {
+    const user = await this.repository.readOne(userId);
+    if (!user) throw new ApiError(404, "User not found.");
+    return this.repository.userPosts(userId);
   }
 }

@@ -63,4 +63,16 @@ export class UserController {
       res.status(400).json({ message: "Failed to delete user" });
     }
   }
+
+  async getUserPosts(req: Request, res: Response) {
+    if (!req.params.id) {
+      throw new ApiError(400, "User id is required");
+    }
+    try {
+      const posts = await this.userService.userPosts(req.params.id);
+      res.status(200).json(posts);
+    } catch (error) {
+      res.status(404).json({ message: "User not found" });
+    }
+  }
 }

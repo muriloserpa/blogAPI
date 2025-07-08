@@ -28,9 +28,11 @@ export class postService {
       updatedAt: created.updatedAt,
     };
   }
-  async read(): Promise<Omit<Post, "status">[]> {
+  async read(): Promise<Omit<Post, "status" | "content">[]> {
     const posts = await this.repository.read();
-    const postsWithoutStatus = posts.map(({ status, ...rest }) => rest);
+    const postsWithoutStatus = posts.map(
+      ({ status, content, ...rest }) => rest
+    );
     return postsWithoutStatus;
   }
   async readOne(id: string): Promise<Omit<Post, "status">> {
@@ -39,6 +41,7 @@ export class postService {
     const { status, ...postWithoutStatus } = post;
     return postWithoutStatus;
   }
+
   async update(id: string, userData: Partial<Post>) {
     const post = await this.repository.readOne(id);
     if (!post) throw new ApiError(404, "post not found.");

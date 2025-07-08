@@ -20,4 +20,8 @@ userRouter.delete("/:id", async (req, res) => {
   await controller.deleteUser(req, res);
 });
 
+userRouter.get("/:id/posts", async (req, res) => {
+  await controller.getUserPosts(req, res);
+});
+
 export default userRouter;
