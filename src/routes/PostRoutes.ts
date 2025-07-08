@@ -17,6 +17,10 @@ postRouter.get("/:id", PostPermission, async (req, res) => {
 postRouter.get("/:id/author", PostPermission, async (req, res) => {
   await controller.author(req, res);
 });
+
+postRouter.put("/:id/publish", PostPermission, async (req, res) => {
+  await controller.publish(req, res);
+});
 postRouter.put("/:id", PostPermission, async (req, res) => {
   await controller.update(req, res);
 });

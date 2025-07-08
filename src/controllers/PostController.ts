@@ -89,4 +89,16 @@ export class PostController {
       res.status(404).json({ message: "post not found" });
     }
   }
+
+  async publish(req: Request, res: Response) {
+    if (!req.params.id) {
+      throw new ApiError(400, "post id is required");
+    }
+    try {
+      const post = await this.postService.publish(req.params.id);
+      res.status(200).json(post);
+    } catch (error) {
+      res.status(404).json({ message: "post not found" });
+    }
+  }
 }
