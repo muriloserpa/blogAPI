@@ -12,7 +12,10 @@ export class PostController {
 
   async create(req: Request, res: Response) {
     try {
-      const post = await this.postService.create(req.body);
+      const post = await this.postService.create({
+        ...req.body,
+        authorId: req.user!.id,
+      });
       res.status(201).json(post);
     } catch (error) {
       res.status(400).json({ message: "Failed to create post" });

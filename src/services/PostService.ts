@@ -12,11 +12,11 @@ export class postService {
 
   async create(
     data: createPostData,
-    role: PostStatus = "DRAFT"
+    status: PostStatus = "DRAFT"
   ): Promise<Omit<Post, "status">> {
     const created = await this.repository.create({
       ...data,
-      status: role,
+      status: status,
     });
 
     return {
