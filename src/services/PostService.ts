@@ -1,7 +1,12 @@
 import { hash } from "bcryptjs";
 import ApiError from "../errors/api-error";
 import type IPostRepository from "../interfaces/iPostRepository";
-import type { createPostData, Post, PostStatus } from "../models/post";
+import type {
+  createPostData,
+  Post,
+  PostStatus,
+  updatePostData,
+} from "../models/post";
 
 export class postService {
   protected readonly repository: IPostRepository;
@@ -42,7 +47,7 @@ export class postService {
     return postWithoutStatus;
   }
 
-  async update(id: string, userData: Partial<Post>) {
+  async update(id: string, userData: updatePostData) {
     const post = await this.repository.readOne(id);
     if (!post) throw new ApiError(404, "post not found.");
     const updated = await this.repository.update(id, userData);

@@ -1,3 +1,6 @@
+import type z from "zod";
+import type { createPostSchema, updatePostSchema } from "../schemas/PostSchema";
+
 export type PostStatus = "DRAFT" | "PUBLISHED";
 
 export type Post = {
@@ -10,4 +13,6 @@ export type Post = {
   status: PostStatus;
 };
 
-export type createPostData = Omit<Post, "id" | "createdAt" | "updatedAt">;
+export type createPostData = z.infer<typeof createPostSchema>;
+
+export type updatePostData = z.infer<typeof updatePostSchema>;

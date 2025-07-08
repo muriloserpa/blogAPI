@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import ApiError from "../errors/api-error";
 import { postService } from "../services/PostService";
 import { PostRepository } from "../repositories/postRepository";
+import { createPostSchema, updatePostSchema } from "../schemas/PostSchema";
 
 export class PostController {
   private readonly postService: postService;
@@ -11,15 +12,19 @@ export class PostController {
   }
 
   async create(req: Request, res: Response) {
-    try {
-      const post = await this.postService.create({
-        ...req.body,
-        authorId: req.user!.id,
-      });
-      res.status(201).json(post);
-    } catch (error) {
-      res.status(400).json({ message: "Failed to create post" });
+    const parsedBody = createPostSchema.safeParse(req.body);
+
+    if (!parsedBody.success) {
+      return res
+        .status(400)
+        .json({ error: parsedBody.error.flatten().fieldErrors });
     }
+
+    const post = await this.postService.create({
+      ...parsedBody.data,
+      authorId: req.user!.id,
+    });
+    res.status(201).json(post);
   }
 
   async get(req: Request, res: Response) {
@@ -47,12 +52,17 @@ export class PostController {
     if (!req.params.id) {
       throw new ApiError(400, "post id is required");
     }
-    try {
-      const post = await this.postService.update(req.params.id, req.body);
-      res.status(200).json(post);
-    } catch (error) {
-      res.status(400).json({ message: "Failed to update post" });
+
+    const parsedBody = updatePostSchema.safeParse(req.body);
+
+    if (!parsedBody.success) {
+      return res
+        .status(400)
+        .json({ error: parsedBody.error.flatten().fieldErrors });
     }
+
+    const post = await this.postService.update(req.params.id, parsedBody.data);
+    res.status(200).json(post);
   }
 
   async delete(req: Request, res: Response) {
