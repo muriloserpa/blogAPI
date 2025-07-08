@@ -28,4 +28,11 @@ export class PostRepository implements IPostRepository {
   async delete(id: string) {
     return prisma.post.delete({ where: { id } });
   }
+
+  async publish(id: string): Promise<Post> {
+    return prisma.post.update({
+      where: { id },
+      data: { status: "PUBLISHED" },
+    });
+  }
 }

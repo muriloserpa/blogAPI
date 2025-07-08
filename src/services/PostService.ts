@@ -53,4 +53,11 @@ export class postService {
     const { status, ...post } = deleted;
     return post;
   }
+
+  async publish(id: string) {
+    const post = await this.repository.readOne(id);
+    if (!post) throw new ApiError(404, "post not found.");
+    const published = await this.repository.publish(id);
+    return published;
+  }
 }
