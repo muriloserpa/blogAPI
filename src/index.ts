@@ -4,6 +4,8 @@ import prisma from "./lib/prisma";
 import errorHandler from "./middlewares/error-handler";
 import userRouter from "./routes/UserRoutes";
 import postRouter from "./routes/PostRoutes";
+import authRouter from "./routes/AuthRoutes";
+import { authenticate, authorizeAdmin } from "./middlewares/auth";
 
 dotenv.config();
 const app = express();
@@ -21,7 +23,8 @@ app.use(async (req, res, next) => {
   }
 });
 
-app.use("/users", userRouter);
+app.use("/users", authenticate, authorizeAdmin, userRouter);
+app.use("/auth", authRouter);
 app.use("/posts", postRouter);
 
 app.use(errorHandler);

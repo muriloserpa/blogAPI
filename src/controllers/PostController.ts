@@ -22,7 +22,6 @@ export class PostController {
   async get(req: Request, res: Response) {
     try {
       const posts = await this.postService.read();
-      console.log(posts);
       res.status(200).json(posts);
     } catch (error) {
       res.status(400).json({ message: "Failed to get posts" });

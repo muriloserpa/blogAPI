@@ -22,7 +22,6 @@ export class UserController {
   async getUsers(req: Request, res: Response) {
     try {
       const users = await this.userService.read();
-      console.log(users);
       res.status(200).json(users);
     } catch (error) {
       res.status(400).json({ message: "Failed to get users" });

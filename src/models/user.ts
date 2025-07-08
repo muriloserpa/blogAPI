@@ -20,3 +20,8 @@ export interface CreateUserData {
   email: string;
   password: string;
 }
+
+export interface Credentials {
+  email: string;
+  password: string;
+}

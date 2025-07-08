@@ -3,10 +3,12 @@ import ApiError from "../errors/api-error";
 import type IUserRepository from "../interfaces/iUserRepository";
 import type {
   CreateUserData,
+  Credentials,
   User,
   UserRole,
   UserWithoutPassword,
 } from "../models/user";
+import { comparePassword, generateToken } from "../utils/jwt";
 
 export class UserService {
   protected readonly repository: IUserRepository;
@@ -70,5 +72,12 @@ export class UserService {
     const deleted = await this.repository.delete(id);
     const { password, role, ...userWithoutPassword } = deleted;
     return userWithoutPassword;
+  }
+
+  async autenticate(credentials: Credentials): Promise<string> {
+    const user = await this.repository.findByEmail(credentials.email);
+    if (!user || !comparePassword(credentials.password, user.password))
+      throw new ApiError(401, "Invalid credentials.");
+    return generateToken(user);
   }
 }
